@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newyork_times_clone_starter/photo_veiw.dart';
 
 class NewsPage extends StatelessWidget {
   String title;
@@ -14,14 +15,15 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading:  new IconButton(
-        color: Color(0xFFA6A6A6),
-        icon: new Icon(Icons.chevron_left),
-        tooltip: 'Air it',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+      appBar: AppBar(
+        leading: new IconButton(
+          color: Color(0xFFA6A6A6),
+          icon: new Icon(Icons.chevron_left),
+          tooltip: 'Air it',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Colors.white,
         title: Text(
           'India',
@@ -70,9 +72,20 @@ class NewsPage extends StatelessWidget {
           ),
           Container(
               width: double.infinity,
-              child: Image(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.fill,
+              child: GestureDetector(
+                onTap: () {
+                  print('hey');
+                  Navigator.push(
+                      (context),
+                      MaterialPageRoute(
+                          builder: (context) => ImageVeiwer(
+                                imageUrl: imageUrl,
+                              )));
+                },
+                child: Image(
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.fill,
+                ),
               )),
           Padding(
             padding:
