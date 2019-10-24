@@ -62,16 +62,18 @@ class NewsCard extends StatelessWidget {
                       child: Container(
                           color: Color(0xFFF3F4F4),
                           height: 90,
-                          child: imageUrl == null
-                              ? Center(
-                                  child: Text(
-                                  'no image found',
-                                  style: TextStyle(color: Color(0xFF606367)),
-                                ))
-                              : Image(
-                                  image: NetworkImage(imageUrl),
-                                  fit: BoxFit.fill,
-                                )))
+                          child: Hero( tag: '$title',
+                            child: imageUrl == null
+                                ? Center(
+                                    child: Text(
+                                    'no image found',
+                                    style: TextStyle(color: Color(0xFF606367)),
+                                  ))
+                                : Image(
+                                    image: NetworkImage(imageUrl),
+                                    fit: BoxFit.fill,
+                                  ),
+                          )))
                 ],
               ),
             ),

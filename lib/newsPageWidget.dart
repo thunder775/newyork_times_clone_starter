@@ -82,9 +82,11 @@ class NewsPage extends StatelessWidget {
                                 imageUrl: imageUrl,
                               )));
                 },
-                child: Image(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.fill,
+                child: Hero(  tag: '$title',
+                  child: Image(
+                    image: NetworkImage(imageUrl),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               )),
           Padding(
