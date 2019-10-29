@@ -5,12 +5,12 @@ class NewsPage extends StatelessWidget {
   String title;
   String description;
   String imageUrl;
-
+  String country;
   String source;
   String content;
 
   NewsPage(
-      {this.imageUrl, this.description, this.title, this.content, this.source});
+      {this.imageUrl, this.description, this.title, this.content, this.source,this.country});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class NewsPage extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         title: Text(
-          'India',
+          country,
           style: TextStyle(
               fontSize: 28,
               color: Color(0xFFA6A6A6),
@@ -53,7 +53,7 @@ class NewsPage extends StatelessWidget {
             padding:
                 const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 15),
             child: Text(
-              title,
+              title??'not available',
               style: TextStyle(
                   fontFamily: 'PlayfairDisplay',
                   fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class NewsPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
             child: Text(
-              description,
+              description??'not available',
               style: TextStyle(
                   fontFamily: 'PlayfairDisplay',
                   fontSize: 18,
@@ -83,7 +83,13 @@ class NewsPage extends StatelessWidget {
                               )));
                 },
                 child: Hero(  tag: '$title',
-                  child: Image(
+                  child: imageUrl == null
+                      ? Center(
+                      child: Text(
+                        'no image found',
+                        style: TextStyle(color: Color(0xFF606367)),
+                      ))
+                      : Image(
                     image: NetworkImage(imageUrl),
                     fit: BoxFit.fill,
                   ),
@@ -103,7 +109,7 @@ class NewsPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 15),
             child: Text(
-              source,
+              source??'not available',
               style: TextStyle(
                   fontFamily: 'PlayfairDisplay',
                   fontWeight: FontWeight.bold,
@@ -124,7 +130,7 @@ class NewsPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
             child: Text(
-              content,
+              content??'not available',
               style: TextStyle(
                   fontFamily: 'PlayfairDisplay',
                   fontSize: 18,

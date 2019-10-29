@@ -109,7 +109,7 @@ class _NewsListPageState extends State<NewsListPage> {
         : ListView.builder(
             itemCount: 20,
             itemBuilder: (context, int index) {
-              return new NewsCard(
+              return new NewsCard(country: widget.country,
                 title: articles[index]['title'],
                 description: articles[index]['description'],
                 imageUrl: articles[index]['urlToImage'],

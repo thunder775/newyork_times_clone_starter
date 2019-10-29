@@ -7,8 +7,10 @@ class NewsCard extends StatelessWidget {
   final String sourceName;
   final String imageUrl;
   final String content;
+  final String country;
 
-  NewsCard({this.imageUrl, this.description, this.sourceName, this.title,this.content});
+
+  NewsCard({this.imageUrl, this.description, this.sourceName, this.title,this.content,this.country});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +19,8 @@ class NewsCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NewsPage(
-                      title: title,
+                builder: (context) => NewsPage(country: country,
+                      title: title??'not available',
                       description: description,
                       imageUrl: imageUrl,source: sourceName,content: content,
                     )));
@@ -48,7 +50,7 @@ class NewsCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
-                        description,
+                        description??'not available',
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -82,7 +84,7 @@ class NewsCard extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    sourceName,
+                    sourceName??'not available',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

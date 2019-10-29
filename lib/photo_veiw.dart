@@ -11,7 +11,7 @@ class _ImageVeiwerState extends State<ImageVeiwer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: PhotoView(imageProvider: NetworkImage(widget.imageUrl),minScale: .3,),
+      child: PhotoView(imageProvider: widget.imageUrl==null?AssetImage('assets/place.jpg') :NetworkImage(widget.imageUrl),minScale: .3,),
     );
   }
 }

@@ -22,6 +22,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/bg1.jpg
+    - assets/place.jpg
 
   uses-material-design: true
   fonts:
