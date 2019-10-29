@@ -4,15 +4,74 @@ import 'package:newyork_times_clone_starter/network_helper.dart';
 import 'package:newyork_times_clone_starter/newsCardWidget.dart';
 
 void main() => runApp(MaterialApp(
-      home: NewsListPage(),
+      home: HomePageWithTab(),
     ));
 
+class HomePageWithTab extends StatefulWidget {
+  @override
+  _HomePageWithTabState createState() => _HomePageWithTabState();
+}
+
+class _HomePageWithTabState extends State<HomePageWithTab> {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text(
+                  'India',
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  'USA',
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+              ),Tab(
+                child: Text(
+                  'New Zealand',
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+              )
+            ],
+            indicatorColor: Colors.black,
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          title: Text(
+            'New Jerusalem Times',
+            style: TextStyle(
+                fontSize: 32, color: Colors.black, fontFamily: 'OldLondon'),
+          ),
+        ),
+        body: TabBarView(
+          children: <Widget>[
+            NewsListPage(country: 'IN'),
+            NewsListPage(country: 'US'),NewsListPage(country: 'NZ')
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class NewsListPage extends StatefulWidget {
+  String country;
+  NewsListPage({this.country});
   @override
   _NewsListPageState createState() => _NewsListPageState();
 }
 
 class _NewsListPageState extends State<NewsListPage> {
+
+
+
+
   NetworkHelper helper = new NetworkHelper();
   bool loading = false;
   List articles = [];
@@ -26,6 +85,7 @@ class _NewsListPageState extends State<NewsListPage> {
 
   void getList() async {
     isLoading();
+    helper.country = widget.country;
     articles = await helper.getaData();
     notLoading();
   }
@@ -44,30 +104,19 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          'New Jerusalem Times',
-          style: TextStyle(
-              fontSize: 32, color: Colors.black, fontFamily: 'OldLondon'),
-        ),
-      ),
-      body: loading
-          ? LoadingWigdet()
-          : ListView.builder(
-              itemCount: 20,
-              itemBuilder: (context, int index) {
-                return new NewsCard(
-                  title: articles[index]['title'],
-                  description: articles[index]['description'],
-                  imageUrl: articles[index]['urlToImage'],
-                  sourceName: articles[index]['source']['name'],
-                  content:articles[index]['content'] ,
-                );
-              },
-            ),
-    );
+    return loading
+        ? LoadingWigdet()
+        : ListView.builder(
+            itemCount: 20,
+            itemBuilder: (context, int index) {
+              return new NewsCard(
+                title: articles[index]['title'],
+                description: articles[index]['description'],
+                imageUrl: articles[index]['urlToImage'],
+                sourceName: articles[index]['source']['name'],
+                content: articles[index]['content'],
+              );
+            },
+          );
   }
 }
