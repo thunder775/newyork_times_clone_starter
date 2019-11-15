@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newyork_times_clone_starter/newsPageWidget.dart';
+import 'package:share/share.dart';
 
 class NewsCard extends StatelessWidget {
   final String title;
@@ -8,21 +9,46 @@ class NewsCard extends StatelessWidget {
   final String imageUrl;
   final String content;
   final String country;
+  final String date;
+  final String url;
 
+  NewsCard(
+      {this.url,
+      this.date,
+      this.imageUrl,
+      this.description,
+      this.sourceName,
+      this.title,
+      this.content,
+      this.country});
 
-  NewsCard({this.imageUrl, this.description, this.sourceName, this.title,this.content,this.country});
+  String getHours() {
+//  print(date);
+    int x = int.parse(date.substring(11, 13));
+//  print(DateTime.now());
+//  print(date);
+    return (x - int.parse(DateTime.now().toString().substring(11, 13)))
+        .abs()
+        .toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        getHours();
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NewsPage(country: country,
-                      title: title??'not available',
+                builder: (context) => NewsPage(
+                      url: url,
+                      date: date,
+                      country: country,
+                      title: title ?? 'not available',
                       description: description,
-                      imageUrl: imageUrl,source: sourceName,content: content,
+                      imageUrl: imageUrl,
+                      source: sourceName,
+                      content: content,
                     )));
         print('hi');
       },
@@ -50,7 +76,7 @@ class NewsCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
-                        description??'not available',
+                        description ?? 'not available',
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -64,7 +90,10 @@ class NewsCard extends StatelessWidget {
                       child: Container(
                           color: Color(0xFFF3F4F4),
                           height: 90,
-                          child: Hero( tag: '$title',
+                          child: Hero(
+                            createRectTween: (Rect r1, Rect r2) =>
+                                RectTween(begin: r1, end: r2),
+                            tag: '$title',
                             child: imageUrl == null
                                 ? Center(
                                     child: Text(
@@ -84,7 +113,7 @@ class NewsCard extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    sourceName??'not available',
+                    sourceName ?? 'not available',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -96,7 +125,7 @@ class NewsCard extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    '1 hour(s) ago',
+                    '${getHours()} hour(s) ago' ?? 'not found',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -106,19 +135,17 @@ class NewsCard extends StatelessWidget {
                     ),
                   ),
                   Expanded(child: SizedBox()),
-                  Icon(
-                    Icons.share,
-                    size: 19,
-                    color: Color(0xFF587887),
+                  IconButton(
+                    onPressed: () {
+                      print('hey');
+                      Share.share(url);
+                      print('hey there');
+                    },
+                    icon: Icon(Icons.share, size: 19, color: Color(0xFF587887)),
                   ),
                   SizedBox(
                     width: 4,
                   ),
-                  Icon(
-                    Icons.bookmark_border,
-                    size: 19,
-                    color: Color(0xFF587887),
-                  )
                 ],
               ),
             ),

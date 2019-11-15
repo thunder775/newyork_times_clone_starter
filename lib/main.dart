@@ -4,6 +4,7 @@ import 'package:newyork_times_clone_starter/network_helper.dart';
 import 'package:newyork_times_clone_starter/newsCardWidget.dart';
 
 void main() => runApp(MaterialApp(
+  debugShowCheckedModeBanner: false,
       home: HomePageWithTab(),
     ));
 
@@ -12,9 +13,13 @@ class HomePageWithTab extends StatefulWidget {
   _HomePageWithTabState createState() => _HomePageWithTabState();
 }
 
-class _HomePageWithTabState extends State<HomePageWithTab> {
+class _HomePageWithTabState extends State<HomePageWithTab>
+     {
+
+
   @override
   Widget build(BuildContext context) {
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -32,7 +37,8 @@ class _HomePageWithTabState extends State<HomePageWithTab> {
                   'USA',
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
-              ),Tab(
+              ),
+              Tab(
                 child: Text(
                   'New Zealand',
                   style: TextStyle(color: Colors.black, fontSize: 16),
@@ -52,7 +58,8 @@ class _HomePageWithTabState extends State<HomePageWithTab> {
         body: TabBarView(
           children: <Widget>[
             NewsListPage(country: 'IN'),
-            NewsListPage(country: 'US'),NewsListPage(country: 'NZ')
+            NewsListPage(country: 'US'),
+            NewsListPage(country: 'NZ')
           ],
         ),
       ),
@@ -62,16 +69,17 @@ class _HomePageWithTabState extends State<HomePageWithTab> {
 
 class NewsListPage extends StatefulWidget {
   String country;
+
   NewsListPage({this.country});
+
   @override
   _NewsListPageState createState() => _NewsListPageState();
 }
 
-class _NewsListPageState extends State<NewsListPage> {
-
-
-
-
+class _NewsListPageState extends State<NewsListPage>
+    with AutomaticKeepAliveClientMixin<NewsListPage> {
+  @override
+  get wantKeepAlive => true;
   NetworkHelper helper = new NetworkHelper();
   bool loading = false;
   List articles = [];
@@ -104,12 +112,16 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return loading
         ? LoadingWigdet()
         : ListView.builder(
             itemCount: 20,
             itemBuilder: (context, int index) {
-              return new NewsCard(country: widget.country,
+              return new NewsCard(
+                url: articles[index]['url'],
+                date: articles[index]['publishedAt'],
+                country: widget.country,
                 title: articles[index]['title'],
                 description: articles[index]['description'],
                 imageUrl: articles[index]['urlToImage'],
